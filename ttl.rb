@@ -1,4 +1,5 @@
-acquiredAt = Time.new()
+acquiredAt = (Time.new() - (24*3600))
+  puts "Item was acquired at " + Time.at(acquiredAt).to_s
   puts "What is the count of competitive offers?"
 offers = gets.chomp.to_i
   puts "What is the item's sales rank?"
@@ -14,7 +15,7 @@ ttl = [lifespan, maxCache].min
 convertTtl = Time.at(ttl).utc.strftime("%Hh %Mm %Ss")
   puts "TTL in hours is " + convertTtl
 expireTime =  acquiredAt + ttl
-  puts "TTL expires at " + expireTime.to_s
+  puts "TTL would expire at " + expireTime.to_s
 
 puts "What is the offer source?  Enter: apes, mina or other"
 source = gets.chomp.downcase
@@ -27,11 +28,12 @@ end
 
 expireHours = ttl * @multiplier
 expireConvert =  Time.at(expireHours).utc.strftime("%Hh %Mm %Ss")
-  puts "expiration after considering multipliers is " + expireConvert
+  puts "expiration hours after considering multipliers is " + expireConvert
 expireTime = acquiredAt + expireHours  
   
-recovery = Time.new() + (6*3600)
-  puts "recovery time is " + recovery.to_s
+recoveryHours = 6
+recovery = Time.new() + (recoveryHours * 3600)
+  puts "recovery time from fallback scenario would be " + recovery.to_s
   puts "Were these offers obtained via fallback mechanism?  Answer: y or n"
 isFallback = gets.chomp.downcase
 if isFallback == "y"
@@ -41,3 +43,7 @@ elsif isFallback == "n"
 end 
 
 puts "New expiry after considering fallback case is " + Time.at(nuExpiry).to_s
+
+minTTLHours = 2
+cacheUntil = [nuExpiry.to_i, (Time.new() + (minTTLHours * 3600)).to_i].max
+  puts "Final client cache after considering acquired time vs minimum TTL is: " + Time.at(cacheUntil).to_s
