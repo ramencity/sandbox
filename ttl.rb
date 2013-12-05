@@ -13,11 +13,10 @@ maxCacheLifetimeInHours = 120
 maxCacheCap = (maxCacheLifetimeInHours * 3600)
   
 ttl = [lifespan, maxCacheCap].min
-  puts "TTL in hours is " + Time.at(ttl).utc.strftime("%Hh %Mm %Ss")
+  puts "TTL in hours (after considering max cap) is " + Time.at(ttl).utc.strftime("%Hh %Mm %Ss")
 
 expireTime =  acquiredAt + ttl
   puts "Based on acquired time of " + Time.at(acquiredAt).to_s + ", TTL would expire at " + expireTime.to_s
-
 
 apesTTLMultiplier = 0.5
 minaTTLMultiplier = 0.5
@@ -26,10 +25,10 @@ puts "What is the offer source?  Enter: apes, mina or other"
 source = gets.chomp.downcase
 if source == "apes"
   @multiplier = apesTTLMultiplier
-elsif source == "mina"  
+elsif source == "mina"
   @multiplier = minaTTLMultiplier
 else @multiplier = 1.0
-end  
+end
 
 expireHours = ttl * @multiplier
 expireConvert =  Time.at(expireHours).utc.strftime("%Hh %Mm %Ss")
@@ -45,7 +44,7 @@ if isFallback == "y"
   newExpiry = [expireAt, recovery].max
 elsif isFallback == "n"
   newExpiry = expireAt
-end 
+end
 
 puts "Expiry after considering fallback case is " + Time.at(newExpiry).to_s
 
