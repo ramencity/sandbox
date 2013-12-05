@@ -7,22 +7,27 @@ rank = gets.chomp.to_i
 lifeMult = gets.chomp.to_i
 
 lifespan = (3600 * lifeMult * (Math.log(1 + rank) + (3.0 * Math.log(1 + offers))))
-#  puts "Lifespan in seconds is " + lifespan.to_s
-maxCacheLifetimeInHours = 120
-maxCacheCap = (maxCacheLifetimeInHours * 3600)  
-ttl = [lifespan, maxCacheCap].min
+  puts "Lifespan is initially " + Time.at(lifespan).utc.strftime("%Hh %Mm %Ss")
 
-convertTtl = Time.at(ttl).utc.strftime("%Hh %Mm %Ss")
-  puts "TTL in hours is " + convertTtl
+maxCacheLifetimeInHours = 120
+maxCacheCap = (maxCacheLifetimeInHours * 3600)
+  
+ttl = [lifespan, maxCacheCap].min
+  puts "TTL in hours is " + Time.at(ttl).utc.strftime("%Hh %Mm %Ss")
+
 expireTime =  acquiredAt + ttl
   puts "Based on acquired time of " + Time.at(acquiredAt).to_s + ", TTL would expire at " + expireTime.to_s
+
+
+apesTTLMultiplier = 0.5
+minaTTLMultiplier = 0.5
 
 puts "What is the offer source?  Enter: apes, mina or other"
 source = gets.chomp.downcase
 if source == "apes"
-  @multiplier = 0.5
+  @multiplier = apesTTLMultiplier
 elsif source == "mina"  
-  @multiplier = 0.5
+  @multiplier = minaTTLMultiplier
 else @multiplier = 1.0
 end  
 
@@ -47,3 +52,14 @@ puts "Expiry after considering fallback case is " + Time.at(newExpiry).to_s
 minTTLHours = 2
 cacheUntil = [newExpiry, (Time.new.utc() + (minTTLHours * 3600))].max
   puts "Final client cache expiry after considering acquired time vs minimum TTL is: " + Time.at(cacheUntil).to_s
+  
+#Service Cache Expiration Calculation:
+
+apesReacquireMultiplier = 8.0
+if source == "apes"
+  @svcFreshness = ttl * apesReacquireMultiplier
+else @svcFreshness = ttl
+end
+
+freshUntil = acquiredAt + @svcFreshness
+  puts "Service's internal TTL is " + Time.at(freshUntil).to_s
