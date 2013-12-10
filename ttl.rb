@@ -1,4 +1,6 @@
-acquiredAt = (Time.new.utc() - (24*3600))
+#acquiredAt = (Time.new.utc() - (2*3600))
+acquiredAt = Time.utc(2013,12,9,21,00,00) 
+#acquiredAt = Time.new.utc()
   puts "What is the count of competitive offers?"
 offers = gets.chomp.to_i
   puts "What is the item's sales rank?"
@@ -51,10 +53,10 @@ puts "Expiry after considering fallback case is " + Time.at(newExpiry).to_s
 minTTLHours = 2
 cacheUntil = [newExpiry, (Time.new.utc() + (minTTLHours * 3600))].max
   puts "Final client cache expiry after considering acquired time vs minimum TTL is: " + Time.at(cacheUntil).to_s
-  
+
 #Service Cache Expiration Calculation:
 
-apesReacquireMultiplier = 8.0
+apesReacquireMultiplier = 2.0
 if source == "apes"
   @svcFreshness = ttl * apesReacquireMultiplier
 else @svcFreshness = ttl
