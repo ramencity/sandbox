@@ -1,6 +1,5 @@
 #acquiredAt = (Time.new.utc() - (2*3600))
 acquiredAt = Time.utc(2013,12,9,21,00,00) 
-#acquiredAt = Time.new.utc()
   puts "What is the count of competitive offers?"
 offers = gets.chomp.to_i
   puts "What is the item's sales rank?"
@@ -37,8 +36,8 @@ expireConvert =  Time.at(expireHours).utc.strftime("%Hh %Mm %Ss")
   puts "TTL in hours after considering source is " + expireConvert
 expireAt = acquiredAt + expireHours
 
-recoveryHours = 6
-recovery = Time.new.utc() + (recoveryHours * 3600)
+recoveryTTLHours = 6
+recovery = Time.new.utc() + (recoveryTTLHours * 3600)
   puts "Recovery time from fallback scenario would be " + recovery.to_s
   puts "Were these offers obtained via fallback mechanism?  Answer: y or n"
 isFallback = gets.chomp.downcase
