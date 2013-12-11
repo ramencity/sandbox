@@ -1,42 +1,53 @@
+def seconds_to_units(seconds)
+  '%d days, %d hours, %d minutes, %d seconds' %
+    # the .reverse lets us put the larger units first for readability
+    [24,60,60].reverse.inject([seconds]) {|result, unitsize|
+      result[0,0] = result.shift.divmod(unitsize)
+      result
+    }
+end
+
 #acquiredAt = (Time.new.utc() - (2*3600))
-acquiredAt = Time.utc(2013,12,9,21,00,00) 
+acquiredAt = Time.utc(2013,12,10,21,00,00) 
   puts "What is the count of competitive offers?"
 offers = gets.chomp.to_i
   puts "What is the item's sales rank?"
 rank = gets.chomp.to_i
   puts "What is the Cache Lifetime Multiplier? (Hint: 1.0 = default)"
-lifeMult = gets.chomp.to_i
+lifeMult = gets.chomp.to_f
 
+#initial lifespan calculation:
 lifespan = (3600 * lifeMult * (Math.log(1 + rank) + (3.0 * Math.log(1 + offers))))
-  puts "Lifespan is initially " + Time.at(lifespan).utc.strftime("%Hh %Mm %Ss")
+  puts "Lifespan is initially " + seconds_to_units(lifespan)
 
-maxCacheLifetimeInHours = 120
+maxCacheLifetimeInHours = 360
 maxCacheCap = (maxCacheLifetimeInHours * 3600)
-  
+
 ttl = [lifespan, maxCacheCap].min
-  puts "TTL in hours (after considering max cap) is " + Time.at(ttl).utc.strftime("%Hh %Mm %Ss")
+  puts "TTL in hours (after considering max cap) is " + seconds_to_units(ttl)
 
 expireTime =  acquiredAt + ttl
   puts "Based on acquired time of " + Time.at(acquiredAt).to_s + ", TTL would expire at " + expireTime.to_s
 
-apesTTLMultiplier = 0.5
+apesTTLMultiplier = 0.1
 minaTTLMultiplier = 0.5
 
 puts "What is the offer source?  Enter: apes, mina or other"
-source = gets.chomp.downcase
-if source == "apes"
+@source = gets.chomp.downcase
+if @source == "apes"
   @multiplier = apesTTLMultiplier
-elsif source == "mina"
+elsif @source == "mina"
   @multiplier = minaTTLMultiplier
 else @multiplier = 1.0
 end
 
 expireHours = ttl * @multiplier
-expireConvert =  Time.at(expireHours).utc.strftime("%Hh %Mm %Ss")
-  puts "TTL in hours after considering source is " + expireConvert
+#expireConvert =  seconds_to_units(expireHours)
+  puts "TTL in hours after considering source is " + seconds_to_units(expireHours)
 expireAt = acquiredAt + expireHours
 
 recoveryTTLHours = 6
+
 recovery = Time.new.utc() + (recoveryTTLHours * 3600)
   puts "Recovery time from fallback scenario would be " + recovery.to_s
   puts "Were these offers obtained via fallback mechanism?  Answer: y or n"
@@ -50,15 +61,17 @@ end
 puts "Expiry after considering fallback case is " + Time.at(newExpiry).to_s
 
 minTTLHours = 2
+
 cacheUntil = [newExpiry, (Time.new.utc() + (minTTLHours * 3600))].max
   puts "Final client cache expiry after considering acquired time vs minimum TTL is: " + Time.at(cacheUntil).to_s
 
 #Service Cache Expiration Calculation:
 
-apesReacquireMultiplier = 2.0
-if source == "apes"
+apesReacquireMultiplier = 8.0
+
+if @source == "apes"
   @svcFreshness = ttl * apesReacquireMultiplier
-else @svcFreshness = ttl
+  else @svcFreshness = ttl
 end
 
 freshUntil = acquiredAt + @svcFreshness
