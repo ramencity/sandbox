@@ -8,16 +8,18 @@ def seconds_to_units(seconds)
 end
 
 #acquiredAt = (Time.new.utc() - (2*3600))
-acquiredAt = Time.utc(2013,12,10,21,00,00) 
+acquiredAt = Time.utc(2013,12,13,23,19,15) 
   puts "What is the count of competitive offers?"
 offers = gets.chomp.to_i
   puts "What is the item's sales rank?"
 rank = gets.chomp.to_i
-  puts "What is the Cache Lifetime Multiplier? (Hint: 1.0 = default)"
-lifeMult = gets.chomp.to_f
+#  puts "What is the Cache Lifetime Multiplier? (Hint: 1.0 = default)"
+#cacheLifetimeMultiplier = gets.chomp.to_f
 
 #initial lifespan calculation:
-lifespan = (3600 * lifeMult * (Math.log(1 + rank) + (3.0 * Math.log(1 + offers))))
+cacheLifetimeMultiplier = 2.4
+
+lifespan = (3600 * cacheLifetimeMultiplier * (Math.log(1 + rank) + (3.0 * Math.log(1 + offers))))
   puts "Lifespan is initially " + seconds_to_units(lifespan)
 
 maxCacheLifetimeInHours = 360
