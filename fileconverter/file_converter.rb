@@ -5,7 +5,12 @@ require 'stringio'
 
 puts "Give me a file name you want to convert that's in the directory you\'re in"
 rawfile = gets.chomp
-#TODO: assert file exists in local directory!
+
+while File.exist?(".//" + rawfile) == false
+  puts "that is not a valid file name!  Try again"
+  rawfile = gets.chomp
+end
+
 readme = File.read(File.open(".//" + rawfile))
 
 puts "do you want to encode or decode the file?"
