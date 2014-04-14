@@ -1,0 +1,9 @@
+out/
+target/
+.idea/
+*.orig
+.project
+.classpath
+.settings
+salesRanks.iml
+atlassian-ide-plugin.xml

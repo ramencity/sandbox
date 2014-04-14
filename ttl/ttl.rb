@@ -7,8 +7,8 @@ def seconds_to_units(seconds)
     }
 end
 
-#acquiredAt = (Time.new.utc() - (2*3600))
-acquiredAt = Time.utc(2013,12,13,23,19,15) 
+#acquiredAt = (Time.new.utc() - (7*3600))
+acquiredAt = Time.utc(2014,1,15,15,14,40) 
   puts "What is the count of competitive offers?"
 offers = gets.chomp.to_i
   puts "What is the item's sales rank?"
@@ -17,21 +17,21 @@ rank = gets.chomp.to_i
 #cacheLifetimeMultiplier = gets.chomp.to_f
 
 #initial lifespan calculation:
-cacheLifetimeMultiplier = 2.4
+cacheLifetimeMultiplier =  1
 
 lifespan = (3600 * cacheLifetimeMultiplier * (Math.log(1 + rank) + (3.0 * Math.log(1 + offers))))
   puts "Lifespan is initially " + seconds_to_units(lifespan)
 
-maxCacheLifetimeInHours = 360
+maxCacheLifetimeInHours = 120
 maxCacheCap = (maxCacheLifetimeInHours * 3600)
 
 ttl = [lifespan, maxCacheCap].min
-  puts "TTL in hours (after considering max cap) is " + seconds_to_units(ttl)
+  puts "TTL in hours (after considering max cap of " + maxCacheLifetimeInHours.to_s + " hours) is " + seconds_to_units(ttl)
 
 expireTime =  acquiredAt + ttl
   puts "Based on acquired time of " + Time.at(acquiredAt).to_s + ", TTL would expire at " + expireTime.to_s
 
-apesTTLMultiplier = 0.1
+apesTTLMultiplier = 1 #cuz of bug that is still in Dev... where float is rounded up to 1
 minaTTLMultiplier = 0.5
 
 puts "What is the offer source?  Enter: apes, mina or other"
