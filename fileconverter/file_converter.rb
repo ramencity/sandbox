@@ -5,32 +5,38 @@ require 'stringio'
 
 puts "Give me a file name you want to convert that's in the directory you\'re in"
 rawfile = gets.chomp
+#TODO: assert file exists in local directory!
 readme = File.read(File.open(".//" + rawfile))
 
 puts "do you want to encode or decode the file?"
 action = gets.chomp.downcase
 
-  if action == 'encode'
-    #gzip the file:
-    zipup = StringIO.new("w")
-    gzip = Zlib::GzipWriter.new(zipup)
-    gzip.write(readme)
-    gzip.close
-    zipped = zipup.string
+until action == 'encode' || action == 'decode'
+  puts "that is not an option!  Enter encode or decode"
+  action = gets.chomp.downcase
+end
 
-    #then base64 encode the puppy:
-    encoded = Base64.encode64(zipped).force_encoding('UTF-8')
-    File.open(".//" + rawfile + "_encoded.gz", "w") {|file| file.puts encoded}
+if action == 'encode'
+  #gzip the file:
+  zipup = StringIO.new("w")
+  gzip = Zlib::GzipWriter.new(zipup)
+  gzip.write(readme)
+  gzip.close
+  zipped = zipup.string
 
-    puts "Your new file is called " + rawfile + "_encoded.gz"
+  #then base64 encode the puppy:
+  encoded = Base64.encode64(zipped).force_encoding('UTF-8')
+  File.open(".//" + rawfile + "_encoded.gz", "w") {|file| file.puts encoded}
 
-  elsif action == 'decode'
-    #first we base64 decode the puppy:
-    decoded = Base64.decode64(readme)
+  puts "Your new file is called " + rawfile + "_encoded.gz"
 
-    #then we g-unzip the file:
-    unzip = Zlib::GzipReader.new(StringIO.new(decoded))
-    File.open(".//" + rawfile + "_decoded.json", "w") {|file| file.puts unzip.read}
+elsif action == 'decode'
+  #first we base64 decode the puppy:
+  decoded = Base64.decode64(readme)
 
-    puts "Your new file is called " + rawfile + "_decoded.json"
+  #then we g-unzip the file:
+  unzip = Zlib::GzipReader.new(StringIO.new(decoded))
+  File.open(".//" + rawfile + "_decoded.json", "w") {|file| file.puts unzip.read}
+
+  puts "Your new file is called " + rawfile + "_decoded.json"
 end
