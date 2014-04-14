@@ -5,8 +5,7 @@ require 'stringio'
 
 puts "Give me a file name you want to convert that's in the directory you\'re in"
 rawfile = gets.chomp
-readme = File.open(".//" + rawfile)
-readit = File.read(readme)
+readme = File.read(File.open(".//" + rawfile))
 
 puts "do you want to encode or decode the file?"
 action = gets.chomp.downcase
@@ -15,7 +14,7 @@ action = gets.chomp.downcase
     #gzip the file:
     zipup = StringIO.new("w")
     gzip = Zlib::GzipWriter.new(zipup)
-    gzip.write(readit)
+    gzip.write(readme)
     gzip.close
     zipped = zipup.string
 
@@ -27,7 +26,7 @@ action = gets.chomp.downcase
 
   elsif action == 'decode'
     #first we base64 decode the puppy:
-    decoded = Base64.decode64(readit)
+    decoded = Base64.decode64(readme)
 
     #then we g-unzip the file:
     unzip = Zlib::GzipReader.new(StringIO.new(decoded))
