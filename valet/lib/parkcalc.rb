@@ -1,5 +1,5 @@
 class ParkCalcPage
-    attr :page
+  attr :page
 
   def initialize(page_handle)
     @page = page_handle
