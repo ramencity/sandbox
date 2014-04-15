@@ -1,6 +1,6 @@
 require 'Watir-webdriver'
 require 'rspec/expectations'
-#require File.join(File.dirname(__FILE__), 'lib', 'parkcalc')
+require File.join(File.dirname(__FILE__), '..', '..', 'lib', 'parkcalc')
 
 Before do
   @browser = Watir::Browser.new
@@ -9,7 +9,6 @@ Before do
   #$parkcalc = ParkCalcPage.new(browser)
 end
 
-at_exit do
-  #@browser.cookies.clear
-  @browser.close
-end
+#at_exit do
+  #@browser.close
+#end
