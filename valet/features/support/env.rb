@@ -1,14 +1,11 @@
-require 'Watir-webdriver'
+require 'watir-webdriver'
 require 'rspec/expectations'
 require File.join(File.dirname(__FILE__), '..', '..', 'lib', 'parkcalc')
 
-Before do
-  @browser = Watir::Browser.new
-  #@browser.driver.manage.window.maximize
-  @browser.goto 'http://www.shino.de/parkcalc'
-  #$parkcalc = ParkCalcPage.new(browser)
-end
+browser = Watir::Browser.new
+$parkcalc = ParkCalcPage.new(browser)
 
-#at_exit do
-  #@browser.close
-#end
+
+at_exit do
+  @browser.close
+end
