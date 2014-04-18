@@ -10,11 +10,11 @@ begin
   @queue_name = "/queue/" + queue
 
   puts 'Is your message zipped up and base-64 encoded?  Answer yes or no'
-  message_type = gets.chomp.downcase
+  message_encoded = gets.chomp.downcase
 
-  until message_type == 'yes' || message_type == 'no'
+  until message_encoded == 'yes' || message_encoded == 'no'
     puts "that is not an option! Enter yes or no"
-    message_type = gets.chomp
+    message_encoded = gets.chomp
   end
 
   puts 'Ok, attempting to connect to queue ' + queue
@@ -34,7 +34,7 @@ begin
     puts "Got socket error: #{se}"
   end
 
-  if message_type == 'yes'
+  if message_encoded == 'yes'
     decoded = Base64.decode64(@msg_body).force_encoding('UTF-8')
     unzip = Zlib::GzipReader.new(StringIO.new(decoded))
     @json = JSON.parse(unzip.read)
