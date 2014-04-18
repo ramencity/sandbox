@@ -24,8 +24,6 @@ begin
     Timeout::timeout(10) {
       @client.subscribe(@queue_name) do |msg|
         @msg_body = msg.body
-        @all_headers = msg.headers
-        @content_type = msg.headers["content-type"]
         @client.close
       end
       @client.join
