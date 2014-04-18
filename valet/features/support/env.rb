@@ -7,5 +7,5 @@ $parkcalc = ParkCalcPage.new(browser)
 
 
 at_exit do
-  @browser.close
+  browser.close
 end

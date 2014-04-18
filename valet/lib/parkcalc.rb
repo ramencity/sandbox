@@ -6,6 +6,10 @@ class ParkCalcPage
     @page.goto 'http://www.shino.de/parkcalc'
   end
 
+  def text_field
+
+  end
+
   @@durationMap = {
     '30 minutes'        => ['05/04/2010', '12:00', 'AM', '05/04/2010' ,'12:30', 'AM'],
     '3 hours'           => ['05/04/2010', '12:00', 'AM', '05/04/2010', '03:00', 'AM'],
