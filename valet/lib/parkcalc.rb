@@ -6,8 +6,15 @@ class ParkCalcPage
     @page.goto 'http://www.shino.de/parkcalc'
   end
 
-  def text_field
+  def thirty_minutes
+    @page.text_field(:id, 'StartingDate').set '4/1/2014'
+    @page.text_field(:id, 'LeavingDate').set '4/1/2014'
+    @page.text_field(:id, 'LeavingTime').set '12:30'
+  end
 
+  def calculate_price
+    @page.button(:value, 'Calculate').click
+    actual_price = @page.table[3][1].text.split[1].strip
   end
 
   @@durationMap = {
