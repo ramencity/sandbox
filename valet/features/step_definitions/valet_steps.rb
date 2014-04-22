@@ -1,6 +1,7 @@
-When(/^I park my car in the ([\w -]+ Parking) Lot for (.*)$/) do |parking_lot, duration|
-  $parkcalc.select parking_lot
-  $parkcalc.thirty_minutes
+When(/^I park my car in the ([\w -]+ Parking) Lot for (.*)$/) do |lot, duration|
+  $parkcalc.select_parking_lot lot
+  #$parkcalc.thirty_minutes
+  $parkcalc.enter_parking_duration(duration)
 end
 
 Then(/^I will have to pay (.*)$/) do |price|
