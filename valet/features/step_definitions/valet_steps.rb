@@ -1,6 +1,5 @@
 When(/^I park my car in the ([\w -]+ Parking) Lot for (.*)$/) do |lot, duration|
   $parkcalc.select_parking_lot lot
-  #$parkcalc.thirty_minutes
   $parkcalc.enter_parking_duration(duration)
 end
 

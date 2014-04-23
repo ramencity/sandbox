@@ -9,12 +9,6 @@ class ParkCalcPage
     @page.goto 'http://www.shino.de/parkcalc'
   end
 
-  def thirty_minutes
-    @page.text_field(:id, 'StartingDate').set '4/1/2014'
-    @page.text_field(:id, 'LeavingDate').set '4/1/2014'
-    @page.text_field(:id, 'LeavingTime').set '12:30'
-  end
-
   def select_parking_lot(lot)
     @page.select_list(:id, 'ParkingLot').select lot
   end
