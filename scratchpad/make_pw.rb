@@ -12,6 +12,11 @@ optparse = OptionParser.new do |opts|
     options[:length] = length
   end
 
+  options[:verbose] = false
+  opts.on('-v','--verbose', 'Shows count of attempts at creating a password until one passes the regex') do
+    options[:verbose] = true
+  end
+
   opts.on('-h', '--help', 'Display this screen') do
     puts opts
     exit
@@ -22,14 +27,17 @@ end
 optparse.parse!
 
 @pw_length = options[:length].to_i
+@verbose = options[:verbose]
 
 class PasswordMaker
 
   attr_accessor :password
 
-  def initialize(pw_length)
+  def initialize(pw_length, verbose)
     @pw_length = pw_length
     @password = password
+    @count = 0
+    @verbose = verbose
   end
 
   def upcased
@@ -57,12 +65,16 @@ class PasswordMaker
   end
 
   def make_password
+    @count += 1
     @password = ((0..(@pw_length-1)).map { charset[rand(charset.length)] }.join) #@pw_length -1 because 0-based index
+    if @verbose
+      puts "attempt at creating password # #{@count}"
+    end
     @password.match(password_regex) ? @password : make_password
   end
 
 end #class
 
-pw = PasswordMaker.new(@pw_length)
+pw = PasswordMaker.new(@pw_length, @verbose)
 pw.make_password
 puts pw.password
