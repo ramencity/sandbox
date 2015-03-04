@@ -41,23 +41,23 @@ class PasswordMaker
   end
 
   def upcased
-    @upcased = ('A'..'Z')
+    ('A'..'Z')
   end
 
   def downcased
-    @downcased = ('a'..'z')
+    ('a'..'z')
   end
 
   def numbers
-    @numbers = ('0'..'9')
+    ('0'..'9')
   end
 
   def chars
-    @chars = %w(* ! # _ $ % &)
+    %w(* ! # _ $ % &)
   end
 
   def charset
-    @charset = [upcased, downcased, numbers, chars].map { |i| i.to_a }.flatten
+    [upcased, downcased, numbers, chars].map { |i| i.to_a }.flatten
   end
 
   def password_regex
