@@ -64,17 +64,21 @@ class PasswordMaker
     @password_regex = /(?=.*[#{numbers}])(?=.*[#{downcased}])(?=.*[#{upcased}])(?=.*[#{chars}])/
   end
 
-  def make_password
-    @count += 1
+  def build_password
     @password = ((0..(@pw_length-1)).map { charset[rand(charset.length)] }.join) #@pw_length -1 because 0-based index
+  end
+
+  def validate_password
+    @count += 1
+    build_password
     if @verbose
       puts "attempt at creating password # #{@count}"
     end
-    @password.match(password_regex) ? @password : make_password
+    @password.match(password_regex) ? @password : validate_password
   end
 
 end #class
 
 pw = PasswordMaker.new(@pw_length, @verbose)
-pw.make_password
+pw.validate_password
 puts pw.password
