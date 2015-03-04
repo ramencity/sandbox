@@ -58,9 +58,6 @@ class PasswordMaker
 
   def make_password
     @password = ((0..(@pw_length-1)).map { charset[rand(charset.length)] }.join) #@pw_length -1 because 0-based index
-  end
-
-  def validate_password
     @password.match(password_regex) ? @password : make_password
   end
 
@@ -68,6 +65,4 @@ end #class
 
 pw = PasswordMaker.new(@pw_length)
 pw.make_password
-pw.validate_password
-
 puts pw.password
