@@ -7,7 +7,6 @@ get "/something" do
 end
 
 get "/inline" do
-	
   code = "Time is: <%= Time.new %>"
   code += "<%= '\n\nlegerdemain!' %>"
   erb code

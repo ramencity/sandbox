@@ -2,11 +2,8 @@ require 'sinatra'
 require 'json'
 require 'thin'
 Thin::HTTP_STATUS_CODES[418] = "I am a teapot"
-Thin::HTTP_STATUS_CODES[207] = "I am napping"
 
 get '/say/*/to/*' do
-  # matches /say/hello/to/world
-  #params['splat'] # => ["hello", "world"]
   "Apparently you want me to say '#{params['splat'][0]}' to #{params['splat'][1].capitalize}.   Done."
 end
 
@@ -40,8 +37,4 @@ end
 
 get "/java" do
   418
-end
-
-get "/soTired" do
-  207
 end
