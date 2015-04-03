@@ -1,0 +1,9 @@
+{
+  "random_number" : "<%= (1..99).to_a.sample %>",
+  "scope" : "<%= ('a'..'z').to_a.sample %>",
+  "user" :  {
+      "id" : <%= (1000..9999).to_a.sample %>,
+	  "email" : "<%= ['fred', 'card', 'somedan', 'guy', 'persona'].sample + '@gmail.com'  %>"
+	  }
+	"context" : "<%= ['interwebs', 'internet', 'json', 'marshal', 'catfur'] .sample %>"
+}
