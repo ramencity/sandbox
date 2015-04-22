@@ -30,14 +30,19 @@ end
 
 # similarly, you can get and use params from post form data coming in from the client.
 # assuming a POST call like: 127.0.0.1:4567/author first_name=Robert last_name=Walser book_id=1234
-post '/author' do
+put '/author' do
   "Updated book #{params['book_id']} with author: #{params['first_name']} #{params['last_name']}"
 end
 
-# get and use data from IO stream, eg a JSON body, using the #read method:
-post '/howdy' do
-  #data = JSON.parse(request.body.read)
-  'hi'
+# get and use data from IO stream, eg a JSON body, using the #read method
+# assuming a POST call like: http -f POST 127.0.0.1:4567/add/product < product.json
+post '/add/product' do
+  status 201
+  data = JSON.parse(request.body.read)
+  @id = data['id']
+  @asin = data['product_codes']['asin']
+  @title = data['title']
+  "\nCongratulations! You've listed product id #{@id} - '#{@title}', asin: #{@asin}"
 end
 
 #you can define and populate a small, inline erb template directly in the block:
