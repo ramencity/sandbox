@@ -54,7 +54,7 @@ post "/update/:order_id/status/:order_status" do
   @status = params['order_status']
   @tracking_number = params['tracking_number']
   @ship_method = params['ship_method']
-  erb order_update
+  erb :order_update
 end
 
 # you can have an endpoint simply return a status code; and update the status code's text, as above in the top of the file
