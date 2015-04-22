@@ -32,8 +32,10 @@ end
    @context = params[:context]
    erb :auth2
  end
- 
- get "/views" do
-   "I keep my views in #{settings.views.inspect}"
- end
- 
+
+post '/oauth2/token' do
+  @scope = params[:scope]
+  @id = params[:id]
+  @context = params[:context]
+  erb :auth2
+end
