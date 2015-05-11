@@ -24,13 +24,13 @@ end
 
 # you can name and use params from the uri, rather than using a wildcard
 # given a GET call to 127.0.0.1:4567/say/howdy/to/winston:
-get '/say/:greeting/to/:user' do
+get "/say/:greeting/to/:user" do
   "Apparently you want me to say '#{params['greeting']}' to #{params['user'].capitalize}.  Done!"
 end
 
 # similarly, you can get and use params from post form data coming in from the client.
-# assuming a POST call like: 127.0.0.1:4567/author first_name=Robert last_name=Walser book_id=1234
-put '/author' do
+# assuming a call like: http -f PUT 127.0.0.1:4567/book/1234/author first_name=Robert last_name=Walser
+put "/book/:book_id/author" do
   "Updated book #{params['book_id']} with author: #{params['first_name']} #{params['last_name']}"
 end
 
