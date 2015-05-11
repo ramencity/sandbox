@@ -1,6 +1,7 @@
 require 'erb'
 require 'json'
 require 'sinatra'
+require 'sinatra/reloader' #if you have installed gem 'sinatra-contrib'
 require 'thin'
 require 'tilt/erb'
 Thin::HTTP_STATUS_CODES[418] = "I am a teapot"
@@ -39,10 +40,10 @@ end
 post '/add/product' do
   status 201
   data = JSON.parse(request.body.read)
-  @id = data['id']
-  @asin = data['product_codes']['asin']
-  @title = data['title']
-  "\nCongratulations! You've listed product id #{@id} - '#{@title}', asin: #{@asin}"
+  id = data['id']
+  asin = data['product_codes']['asin']
+  title = data['title']
+  "\nCongratulations! You've listed product id #{id} - '#{title}', asin: #{asin}"
 end
 
 #you can define and populate a small, inline erb template directly in the block:
@@ -54,7 +55,8 @@ end
 
 # or use a stand-alone erb template, located in a ./views subdirectory:
 # assuming a POST call like: 127.0.0.1:4567/update/8888/status/shipped  tracking_number=Z7777777 ship_method=UPSGround
-post "/update/:order_id/status/:order_status" do
+post "/customer/:customer_id/order/:order_id/status/:order_status" do
+  @customer_id = params['customer_id']
   @order_id = params['order_id']
   @status = params['order_status']
   @tracking_number = params['tracking_number']
