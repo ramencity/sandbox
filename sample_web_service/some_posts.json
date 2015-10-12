@@ -1,0 +1,17 @@
+[
+  {
+    "title": "Title One",
+    "summary": "The first thing",
+    "content": "Once upon a time..."
+  },
+  {
+    "title": "Title Two",
+    "summary": "The story continues",
+    "content": "...there was an ant..."
+  },
+  {
+    "title": "Title Three",
+    "summary": "The end?!",
+    "content": "...named Gerald."
+  }
+]
